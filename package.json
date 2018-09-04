@@ -1,0 +1,8 @@
+{
+  "name": "calculator",
+  "version": "0.1.0",
+  "description": "A Simple Calculator for Everlife",
+  "main": "index.js",
+  "author": "charles.lobo@gmail.com",
+  "license": "MIT"
+}
