@@ -14,7 +14,7 @@ function main() {
 }
 
 const commMgrClient = new cote.Requester({
-    name: 'SkillMgr -> CommMgr',
+    name: 'Calculator -> CommMgr',
     key: 'everlife-communication-svc',
 })
 
