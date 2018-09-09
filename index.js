@@ -29,7 +29,7 @@ function sendReply(msg, req) {
 let msKey = 'everlife-calculator-demo-svc'
 /*      outcome/
  * Register ourselves as a message handler with the communication
- * manager so we can handle requests for installation of new skills.
+ * manager so we can handle requests for simple calculations.
  */
 function registerWithCommMgr() {
     commMgrClient.send({
