@@ -4,5 +4,9 @@
   "description": "A Simple Calculator for Everlife",
   "main": "index.js",
   "author": "charles.lobo@gmail.com",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "cote": "^0.17.1",
+    "elife-utils": "everlifeai/elife-utils"
+  }
 }
