@@ -36,6 +36,7 @@ function registerWithCommMgr() {
         type: 'register-msg-handler',
         mskey: msKey,
         mstype: 'msg',
+        mshelp: [ { cmd: '/calc', txt: 'do some math!' } ],
     }, (err) => {
         if(err) u.showErr(err)
     })
@@ -60,16 +61,28 @@ function startMicroservice() {
     calcSvc.on('msg', (req, cb) => {
         if(!req.msg) return cb()
 
+        let has_calc_cmd = false
+        let txt = req.msg
+        if(txt.startsWith('/calc ')) {
+            has_calc_cmd = true
+            txt = txt.substr('calc '.length)
+        }
+
         try {
             // TODO: REMOVE THIS
-            let v = eval(req.msg)
+            let v = eval(txt)
             if(isNaN(v)) cb()
             else {
                 cb(null, true)
                 sendReply(v, req)
             }
         } catch(e) {
-            cb()
+            if(has_calc_cmd) {
+                cb(null, true)
+                sendReply(`Could not calculate ${txt}`, req)
+            } else {
+                cb()
+            }
         }
 
     })
