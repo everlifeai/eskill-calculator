@@ -20,7 +20,7 @@ const commMgrClient = new cote.Requester({
 
 function sendReply(msg, req) {
     req.type = 'reply'
-    req.msg = msg
+    req.msg = String(msg)
     commMgrClient.send(req, (err) => {
         if(err) u.showErr(err)
     })
