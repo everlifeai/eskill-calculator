@@ -61,31 +61,40 @@ function startMicroservice() {
     calcSvc.on('msg', (req, cb) => {
         if(!req.msg) return cb()
 
-        let has_calc_cmd = false
         let txt = req.msg
-        if(txt.startsWith('/calc ')) {
-            has_calc_cmd = true
-            txt = txt.substr('calc '.length)
-        }
+        if(!txt.startsWith('/calc ')) return cb()
 
-        try {
-            // TODO: REMOVE THIS
-            let v = eval(txt)
-            if(isNaN(v)) cb()
-            else {
-                cb(null, true)
+        cb(null, true)
+
+        txt = txt.substr('/calc '.length)
+
+        calc(txt, (v) => {
+            if(v) {
                 sendReply(v, req)
-            }
-        } catch(e) {
-            if(has_calc_cmd) {
-                cb(null, true)
-                sendReply(`Could not calculate ${txt}`, req)
             } else {
-                cb()
+                sendReply(`Could not calculate ${txt}`, req)
             }
-        }
+        })
 
     })
+
+    calcSvc.on('calc', (req, cb) => {
+        calc(req.expr, cb)
+    })
+
+}
+
+function calc(txt, cb) {
+    try {
+        txt = txt.replace(/[^-()\d/*+.]/g, '')
+        // TODO: Is there a better way instead
+        // of `eval()`?
+        let v = eval(txt)
+        if(isNaN(v)) cb()
+        else cb(v)
+    } catch(e) {
+        cb()
+    }
 
 }
 
